@@ -1,0 +1,98 @@
+.portlet-title .text-center {
+    width: 100%
+}
+
+.portlet.light > .portlet-title > .caption, .portlet.light > .portlet-title > .caption > .caption-subject {
+    font-size: 14px;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.padding-right-0 {
+    padding-right: 0;
+}
+
+.highchart {
+    height: 300px;
+}
+
+.portlet.light.portlet-fit {
+    margin-bottom: 15px;
+}
+
+#reportForm .form-group {
+    background: #3B3F51;
+    padding: 15px 0;
+    color: white;
+}
+
+.same-height-parent {
+    display: flex;
+    text-align: center;
+}
+
+.same-height-parent hr {
+    margin: 5px 0;
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid black;
+}
+
+.highlight-blue-box {
+    height: 45%;
+    background: #2BF6E0;
+    margin-top: 14px;
+}
+
+.highlight-yellow-box {
+    height: 45%;
+    background: #EEBA2D;
+    margin-bottom: 15px;
+}
+
+.highlight-number {
+    font-size: 25px;
+    padding: 10px;
+}
+
+.highlight-number div {
+    font-size: 16px;
+}
+
+table.report-table {
+    height: 100%;
+    width: 100%;
+}
+
+table.report-table td.border-right {
+    border-right: 1px solid grey;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+table.report-table td.border-right-none {
+    border-right: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.padding-right-7 {
+    padding-right: 7px;
+}
+
+.padding-left-7 {
+    padding-left: 7px;
+}
+
+.same-height-parent .statistic-number {
+    height: 120px;
+    background: white;
+    padding: 10px;
+}
+
+#morris_chart_3, #morris_chart_4 {
+    height: 255px;
+}
