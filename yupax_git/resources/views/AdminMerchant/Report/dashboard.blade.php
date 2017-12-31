@@ -93,7 +93,7 @@
                 <div class="highlight-yellow-box">
                     <div style="background: #FFF; padding: 15px 0">TỔNG DOANH THU</div>
                     <div class="highlight-number">
-                        15.000
+                        {{ $data['revenue_total'] }}
                         <hr>
                         <div>triệu VND</div>
                     </div>
@@ -102,30 +102,35 @@
                 <div class="highlight-blue-box">
                     <div style="background: #FFF; padding: 15px 0">TỔNG SỐ GIAO DỊCH</div>
                     <div class="highlight-number">
-                        25.000
+                        {{ $data['transactions_total'] }}
                         <hr>
                         <div>nghìn giao dịch</div>
                     </div>
                 </div>
             </div>
 
+            @if (isset($data['revenue_highchart']))
             <div class="col-md-5 padding-right-0">
                 <div class="portlet light portlet-fit bordered">
                     <div class="portlet-body">
-                        <div id="highchart_1" class="highchart"></div>
+                        <div id="revenue_highchart" class="highchart" data-content="{{ $data['revenue_highchart'] }}"></div>
                     </div>
                 </div>
             </div>
+            @endif
 
+            @if (isset($data['transaction_hightchart']))
             <div class="col-md-5">
                 <div class="portlet light portlet-fit bordered">
                     <div class="portlet-body">
-                        <div id="highchart_2" class="highchart"></div>
+                        <div id="transaction_hightchart" class="highchart" data-content="{{ $data['transaction_hightchart'] }}"></div>
                     </div>
                 </div>
             </div>
+            @endif
         </div>
 
+        @if (isset($data['highlighted_number']))
         <div class="row same-height-parent">
             <div class="col-md-12">
                 <div class="statistic-number">
@@ -136,19 +141,20 @@
                             <td width="25%">MAX SỐ GIAO DỊCH/NGÀY</td>
                             <td width="25%">ĐỔI TRẢ/KHIẾU NẠI</td>
                         </tr>
-
                         <tr>
-                            <td class="border-right">1.525.000</td>
-                            <td class="border-right">5.000.000</td>
-                            <td class="border-right">281</td>
-                            <td class="border-right-none">0.1%</td>
+                            <td class="border-right">{{ $data['highlighted_number']['average_invoice'] }}</td>
+                            <td class="border-right">{{ $data['highlighted_number']['highest_invoice'] }}</td>
+                            <td class="border-right">{{ $data['highlighted_number']['maximum_transaction_per_day'] }}</td>
+                            <td class="border-right-none">{{ $data['highlighted_number']['refund'] }}%</td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
+        @endif
 
         <div class="row margin-top-15" >
+            @if (isset($data['transaction_by_hours']))
             <div class="col-md-6 padding-right-7">
                 <div class="portlet light portlet-fit bordered">
                     <div class="portlet-title">
@@ -157,11 +163,13 @@
                         </div>
                     </div>
                     <div class="portlet-body">
-                        <div id="morris_chart_3"></div>
+                        <div id="transaction_by_hours" data-content="{{ $data['transaction_by_hours'] }}"></div>
                     </div>
                 </div>
             </div>
+            @endif
 
+            @if (isset($data['average_invoice_by_hours']))
             <div class="col-md-6 padding-left-7">
                 <div class="portlet light portlet-fit bordered">
                     <div class="portlet-title">
@@ -171,43 +179,48 @@
                     </div>
 
                     <div class="portlet-body">
-                        <div id="morris_chart_4"></div>
+                        <div id="average_invoice_by_hours" data-content="{{ $data['average_invoice_by_hours'] }}"></div>
                     </div>
                 </div>
             </div>
+            @endif
         </div>
 
         <!-- BEGIN PAGE BASE CONTENT -->
         <div class="row same-height-parent padding-right-0">
+            @if (isset($data['products_ration_by_week']))
             <div class="col-md-6 padding-right-7">
                 <div class="portlet light portlet-fit bordered">
                     <div class="portlet-title">
                         <div class="caption text-center">
-                            <span class="caption-subject uppercase">Nhóm sp bán theo tỷ lệ</span><br/>
+                            <span class="caption-subject uppercase">Nhóm sản phẩm bán theo tỷ lệ</span><br/>
                             <span class="italic">ngày trong tuần</span>
                         </div>
                     </div>
 
                     <div class="portlet-body">
-                        <div id="pie_chart_6" class="chart" ></div>
+                        <div id="products_ration_by_week" class="chart" data-content="{{ $data['products_ration_by_week'] }}"></div>
                     </div>
                 </div>
             </div>
+            @endif
 
+            @if (isset($data['products_ration_by_weekend']))
             <div class="col-md-6 padding-left-7">
                 <div class="portlet light portlet-fit bordered">
                     <div class="portlet-title">
                         <div class="caption text-center">
-                            <span class="caption-subject uppercase">Nhóm sp bán theo tỷ lệ</span><br/>
+                            <span class="caption-subject uppercase">Nhóm sản phẩm bán theo tỷ lệ</span><br/>
                             <span class="italic">ngày cuối tuần</span>
                         </div>
                     </div>
 
                     <div class="portlet-body">
-                        <div id="pie_chart_7" class="chart"></div>
+                        <div id="products_ration_by_weekend" class="chart" data-content="{{ $data['products_ration_by_week'] }}"></div>
                     </div>
                 </div>
             </div>
+            @endif
         </div>
         <!-- END PIE CHART PORTLET-->
     </div>
