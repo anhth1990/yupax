@@ -66,47 +66,19 @@ class ReportController extends BaseController
         return [
             [
                 'label' => 'Series 1',
-                'data' => 96,
+                'data' => 10,
             ],
             [
                 'label' => 'Series 2',
-                'data' => 7,
+                'data' => 20,
             ],
             [
                 'label' => 'Series 3',
-                'data' => 54,
+                'data' => 30,
             ],
             [
                 'label' => 'Series 4',
-                'data' => 39,
-            ],
-            [
-                'label' => 'Series 5',
-                'data' => 11,
-            ],
-            [
-                'label' => 'Series 6',
-                'data' => 90,
-            ],
-            [
-                'label' => 'Series 7',
-                'data' => 44,
-            ],
-            [
-                'label' => 'Series 1',
-                'data' => 42,
-            ],
-            [
-                'label' => 'Series 8',
-                'data' => 11,
-            ],
-            [
-                'label' => 'Series 9',
-                'data' => 36,
-            ],
-            [
-                'label' => 'Series 10',
-                'data' => 96,
+                'data' => 40,
             ],
         ];
     }
@@ -147,33 +119,37 @@ class ReportController extends BaseController
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getTransactionByHours()
     {
         return [
             'data' => [
-                ['y' => '2006', 'a' => 100, 'b' => 90],
-                ['y' => '2007', 'a' => 75, 'b' => 65],
-                ['y' => '2008', 'a' => 50, 'b' => 40],
-                ['y' => '2009', 'a' => 75, 'b' => 65],
-                ['y' => '2010', 'a' => 50, 'b' => 40],
-                ['y' => '2011', 'a' => 75, 'b' => 65]
+                ['y' => '9h - 11h', 'a' => 100, 'b' => 90],
+                ['y' => '11h - 14h', 'a' => 75, 'b' => 65],
+                ['y' => '14h - 17h', 'a' => 50, 'b' => 40],
+                ['y' => '17h - 20h', 'a' => 75, 'b' => 65],
+                ['y' => '20h - 22h', 'a' => 50, 'b' => 40],
             ],
-            'labels' => ['Series A', 'Series B']
+            'labels' => ['Ngày trong tuần', 'Ngày cuối tuần']
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getAverageInvoiceByHours()
     {
         return [
             'data' => [
-                ['y' => '2006', 'a' => 100, 'b' => 90],
-                ['y' => '2007', 'a' => 75, 'b' => 65],
-                ['y' => '2008', 'a' => 50, 'b' => 40],
-                ['y' => '2009', 'a' => 75, 'b' => 65],
-                ['y' => '2010', 'a' => 50, 'b' => 40],
-                ['y' => '2011', 'a' => 75, 'b' => 65]
+                ['y' => '9h - 11h', 'a' => 100, 'b' => 90],
+                ['y' => '11h - 14h', 'a' => 75, 'b' => 65],
+                ['y' => '14h - 17h', 'a' => 50, 'b' => 40],
+                ['y' => '17h - 20h', 'a' => 75, 'b' => 65],
+                ['y' => '20h - 22h', 'a' => 50, 'b' => 40],
             ],
-            'labels' => ['Series A', 'Series B']
+            'labels' => ['Ngày trong tuần', 'Ngày cuối tuần']
         ];
     }
 }

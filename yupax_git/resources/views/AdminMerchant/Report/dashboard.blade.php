@@ -91,20 +91,20 @@
         <div class="row same-height-parent">
             <div class="col-md-2 padding-right-0">
                 <div class="highlight-yellow-box">
-                    <div style="background: #FFF; padding: 15px 0">TỔNG DOANH THU</div>
+                    <div class="title">TỔNG DOANH THU</div>
                     <div class="highlight-number">
                         {{ $data['revenue_total'] }}
                         <hr>
-                        <div>triệu VND</div>
+                        <div>VND</div>
                     </div>
                 </div>
 
                 <div class="highlight-blue-box">
-                    <div style="background: #FFF; padding: 15px 0">TỔNG SỐ GIAO DỊCH</div>
+                    <div class="title">TỔNG SỐ GIAO DỊCH</div>
                     <div class="highlight-number">
                         {{ $data['transactions_total'] }}
                         <hr>
-                        <div>nghìn giao dịch</div>
+                        <div>giao dịch</div>
                     </div>
                 </div>
             </div>
@@ -135,7 +135,7 @@
             <div class="col-md-12">
                 <div class="statistic-number">
                     <table class="report-table">
-                        <tr>
+                        <tr class="header">
                             <td width="25%">HOÁ ĐƠN TRUNG BÌNH</td>
                             <td width="25%">HOÁ ĐƠN CAO NHẤT/NGÀY</td>
                             <td width="25%">MAX SỐ GIAO DỊCH/NGÀY</td>

@@ -16,6 +16,12 @@ var ChartsFlotcharts = function () {
                         pie: {
                             show: true,
                             innerRadius: 0.5,
+                            label: {
+                                show: true,
+                                formatter: function(label, series) {
+                                    return '<span style="font-size:14px; text-align:center; color: inherit;">' + label + '<br/>' + Math.round(series.percent) + '%</span>';
+                                },
+                            },
                             combine: {
                                 color: '#999',
                                 threshold: 0.1
@@ -23,7 +29,7 @@ var ChartsFlotcharts = function () {
                         }
                     },
                     legend: {
-                        show: false
+                        show: true
                     }
                 });
             }
@@ -35,14 +41,20 @@ var ChartsFlotcharts = function () {
                         pie: {
                             show: true,
                             innerRadius: 0.5,
+                            label: {
+                                show: true,
+                                formatter: function(label, series) {
+                                    return '<span style="font-size:14px; text-align:center; color: inherit;">' + label + '<br/>' + Math.round(series.percent) + '%</span>';
+                                },
+                            },
                             combine: {
                                 color: '#999',
-                                threshold: 0.1
+                                threshold: 0.1,
                             }
                         }
                     },
                     legend: {
-                        show: false
+                        show: true
                     }
                 });
             }
@@ -53,6 +65,21 @@ var ChartsFlotcharts = function () {
 jQuery(document).ready(function () {
     ChartsFlotcharts.init();
     ChartsFlotcharts.initPieCharts();
+    var year = getParameterByName('year');
+    var reportTime = getParameterByName('report-time');
+
+    console.log(year);
+    if (year === null) {
+        year = 2017;
+    }
+
+    if (reportTime === null || reportTime == 'quy') {
+        reportTime = 'QUÝ';
+    } else if (reportTime == 'nam') {
+        reportTime = 'NĂM';
+    } else {
+        reportTime = 'THÁNG';
+    }
 
     var revenueHighChartData = JSON.parse($('#revenue_highchart').attr('data-content'));
     // LINE CHART 1
@@ -60,22 +87,33 @@ jQuery(document).ready(function () {
         chart: {
             style: {
                 fontFamily: 'Open Sans',
-                fontSize: '12px'
+                fontSize: '12px',
+                fontSize: '14px'
             }
         },
         title: {
-            text: 'DOANH THU TRONG XXX',
-            x: -20,
+            text: 'DOANH THU TRONG ' + reportTime + ' - ' +  year,
+            align: 'center',
             style: {
                 fontSize: '14px'
             }
         },
         xAxis: {
-            categories: revenueHighChartData['categories']
+            categories: revenueHighChartData['categories'],
+            labels: {
+                style: {
+                    fontSize: '14px'
+                }
+            },
         },
         yAxis: {
             title: {
-                text: 'Temperature (°C)'
+                text: 'Temperature (°C)',
+            },
+            labels: {
+                style: {
+                    fontSize: '14px'
+                }
             },
             plotLines: [{
                 value: 0,
@@ -100,22 +138,32 @@ jQuery(document).ready(function () {
     $('#transaction_hightchart').highcharts({
         chart: {
             style: {
-                fontFamily: 'Open Sans'
+                fontFamily: 'Open Sans',
+                fontSize: '14px'
             }
         },
         title: {
-            text: 'SỐ LƯỢNG GIAO DỊCH TRONG XXX',
-            x: -20,
+            text: 'SỐ LƯỢNG GIAO DỊCH TRONG ' + reportTime + ' - ' +  year,
             style: {
                 fontSize: '14px'
             }
         },
         xAxis: {
-            categories: transactionHighChartData['categories']
+            categories: transactionHighChartData['categories'],
+            labels: {
+                style: {
+                    fontSize: '14px'
+                }
+            },
         },
         yAxis: {
             title: {
                 text: 'Temperature (°C)'
+            },
+            labels: {
+                style: {
+                    fontSize: '14px'
+                }
             },
             plotLines: [{
                 value: 0,
@@ -143,6 +191,9 @@ jQuery(document).ready(function () {
         data: transactionByHours['data'],
         xkey: 'y',
         ykeys: ['a', 'b'],
+        resize: true,
+        gridTextSize: 14,
+        xLabelAngle: 60,
         labels: transactionByHours['labels']
     });
 
@@ -154,6 +205,9 @@ jQuery(document).ready(function () {
         data: averageInvoiceByHours['data'],
         xkey: 'y',
         ykeys: ['a', 'b'],
+        resize: true,
+        gridTextSize: 14,
+        xLabelAngle: 60,
         labels: averageInvoiceByHours['labels']
     });
 
@@ -161,3 +215,13 @@ jQuery(document).ready(function () {
         $('#reportForm').submit();
     });
 });
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
