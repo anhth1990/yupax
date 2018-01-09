@@ -39,7 +39,40 @@ class ReportController extends BaseController
     {
         try {
             $requestData = $request->all();
-            $data = $this->reportService->getReportData();
+            $data = $this->reportService->initReportData();
+            $reportData = $this->reportService->loadReportData($requestData);
+
+            $data['revenue_total'] = $reportData['revenue_total'];
+            $data['transactions_total'] = $reportData['transactions_total'];
+            $data['highlighted_number']['average_invoice'] = $reportData['average_invoice'];
+            $data['highlighted_number']['highest_invoice'] = $reportData['highest_invoice'];
+            $data['highlighted_number']['maximum_transaction_per_day'] = $reportData['maximum_transaction_per_day'];
+            $data['highlighted_number']['refund'] = $reportData['refund'];
+            $data['transaction_by_hours'] = json_encode($reportData['bar_chart']['transaction_by_hours']);
+            $data['average_invoice_by_hours'] = json_encode($reportData['bar_chart']['average_invoice_by_hours']);
+            $data['products_ration_by_week'] = json_encode($reportData['pie_chart']['day_in_week'], JSON_UNESCAPED_UNICODE);
+            $data['products_ration_by_weekend'] = json_encode($reportData['pie_chart']['weekend'], JSON_UNESCAPED_UNICODE);
+            $data['revenue_highchart'] = json_encode($reportData['high_chart']['total_transaction']);
+            $data['transaction_hightchart'] = json_encode($reportData['high_chart']['number_transaction']);
+
+            return view('AdminMerchant.Report.dashboard', compact('data'));
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+            return view('errors.503', compact('error'));
+        }
+    }
+
+    /**
+     * Report action
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function reportGroup(Request $request)
+    {
+        try {
+            $requestData = $request->all();
+            $data = $this->reportService->initReportData();
             $data['revenue_total'] = number_format(15000);
             $data['transactions_total'] = number_format(25000);
             $data['transactions_total'] = number_format(25000);
@@ -49,12 +82,10 @@ class ReportController extends BaseController
             $data['highlighted_number']['refund'] = 0.1;
             $data['transaction_by_hours'] = json_encode($this->getTransactionByHours());
             $data['average_invoice_by_hours'] = json_encode($this->getAverageInvoiceByHours());
-            $data['products_ration_by_week'] = json_encode($this->getDataProductsRationByWeekend());
-            $data['products_ration_by_weekend'] = json_encode($this->getDataProductsRationByWeekend());
             $data['revenue_highchart'] = json_encode($this->getRevenueHighchart());
             $data['transaction_hightchart'] = json_encode($this->getTransactionHighchart());
 
-            return view('AdminMerchant.Report.dashboard', compact('data'));
+            return view('AdminMerchant.Report.group', compact('data'));
         } catch (Exception $e) {
             $error = $e->getMessage();
             return view('errors.503', compact('error'));
@@ -126,11 +157,11 @@ class ReportController extends BaseController
     {
         return [
             'data' => [
-                ['y' => '9h - 11h', 'a' => 100, 'b' => 90],
-                ['y' => '11h - 14h', 'a' => 75, 'b' => 65],
-                ['y' => '14h - 17h', 'a' => 50, 'b' => 40],
-                ['y' => '17h - 20h', 'a' => 75, 'b' => 65],
-                ['y' => '20h - 22h', 'a' => 50, 'b' => 40],
+                ['y' => '9h - 11h', 'day_in_week' => 100, 'weekend' => 90],
+                ['y' => '11h - 14h', 'day_in_week' => 75, 'weekend' => 65],
+                ['y' => '14h - 17h', 'day_in_week' => 50, 'weekend' => 40],
+                ['y' => '17h - 20h', 'day_in_week' => 75, 'weekend' => 65],
+                ['y' => '20h - 22h', 'day_in_week' => 50, 'weekend' => 40],
             ],
             'labels' => ['Ngày trong tuần', 'Ngày cuối tuần']
         ];
@@ -143,11 +174,11 @@ class ReportController extends BaseController
     {
         return [
             'data' => [
-                ['y' => '9h - 11h', 'a' => 100, 'b' => 90],
-                ['y' => '11h - 14h', 'a' => 75, 'b' => 65],
-                ['y' => '14h - 17h', 'a' => 50, 'b' => 40],
-                ['y' => '17h - 20h', 'a' => 75, 'b' => 65],
-                ['y' => '20h - 22h', 'a' => 50, 'b' => 40],
+                ['y' => '9h - 11h', 'day_in_week' => 100, 'weekend' => 90],
+                ['y' => '11h - 14h', 'day_in_week' => 75, 'weekend' => 65],
+                ['y' => '14h - 17h', 'day_in_week' => 50, 'weekend' => 40],
+                ['y' => '17h - 20h', 'day_in_week' => 75, 'weekend' => 65],
+                ['y' => '20h - 22h', 'day_in_week' => 50, 'weekend' => 40],
             ],
             'labels' => ['Ngày trong tuần', 'Ngày cuối tuần']
         ];

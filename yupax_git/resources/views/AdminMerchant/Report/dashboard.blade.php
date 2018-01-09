@@ -50,7 +50,7 @@
                         <div class="col-md-2">
                             <select class="form-control" name="area">
                                 @foreach($data['areas'] as $key => $value)
-                                    <option value="{{ $value }}" {{ strtolower(app('request')->input('area')) === strtolower($value) ? "selected" : "" }}>
+                                    <option value="{{ $key }}" {{ strtolower(app('request')->input('area')) === strtolower($key) ? "selected" : "" }}>
                                         {{ $value }}
                                     </option>
                                 @endforeach
@@ -216,7 +216,7 @@
                     </div>
 
                     <div class="portlet-body">
-                        <div id="products_ration_by_weekend" class="chart" data-content="{{ $data['products_ration_by_week'] }}"></div>
+                        <div id="products_ration_by_weekend" class="chart" data-content="{{ $data['products_ration_by_weekend'] }}"></div>
                     </div>
                 </div>
             </div>

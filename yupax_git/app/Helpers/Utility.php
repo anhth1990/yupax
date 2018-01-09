@@ -166,4 +166,13 @@ class Utility
         $input[$key] = Carbon::createFromFormat('d/m/Y', $input[$key])->format('Y-m-d');
         $request->replace($input);
     }
+
+    /**
+     * @param $date
+     * @return bool
+     */
+    public static function isWeekend($date)
+    {
+        return (date('N', strtotime($date)) >= 6);
+    }
 }

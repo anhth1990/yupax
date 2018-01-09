@@ -19,7 +19,7 @@ var ChartsFlotcharts = function () {
                             label: {
                                 show: true,
                                 formatter: function(label, series) {
-                                    return '<span style="font-size:14px; text-align:center; color: inherit;">' + label + '<br/>' + Math.round(series.percent) + '%</span>';
+                                    return '<span style="font-size:14px; text-align:center; color: inherit; width: 50px;display: block">' + label + '<br/>' + Math.round(series.percent) + '%</span>';
                                 },
                             },
                             combine: {
@@ -44,7 +44,7 @@ var ChartsFlotcharts = function () {
                             label: {
                                 show: true,
                                 formatter: function(label, series) {
-                                    return '<span style="font-size:14px; text-align:center; color: inherit;">' + label + '<br/>' + Math.round(series.percent) + '%</span>';
+                                    return '<span style="font-size:14px; text-align:center; color: inherit; width: 50px;display: block">' + label + '<br/>' + Math.round(series.percent) + '%</span>';
                                 },
                             },
                             combine: {
@@ -108,7 +108,7 @@ jQuery(document).ready(function () {
         },
         yAxis: {
             title: {
-                text: 'Temperature (°C)',
+                text: 'Doanh thu',
             },
             labels: {
                 style: {
@@ -158,7 +158,7 @@ jQuery(document).ready(function () {
         },
         yAxis: {
             title: {
-                text: 'Temperature (°C)'
+                text: 'Giao dịch'
             },
             labels: {
                 style: {
@@ -190,7 +190,7 @@ jQuery(document).ready(function () {
         barColors: ['#0b62a4', '#cb4b4b'],
         data: transactionByHours['data'],
         xkey: 'y',
-        ykeys: ['a', 'b'],
+        ykeys: ['day_in_week', 'weekend'],
         resize: true,
         gridTextSize: 14,
         xLabelAngle: 60,
@@ -204,7 +204,7 @@ jQuery(document).ready(function () {
         barColors: ['#0b62a4', '#cb4b4b'],
         data: averageInvoiceByHours['data'],
         xkey: 'y',
-        ykeys: ['a', 'b'],
+        ykeys: ['day_in_week', 'weekend'],
         resize: true,
         gridTextSize: 14,
         xLabelAngle: 60,

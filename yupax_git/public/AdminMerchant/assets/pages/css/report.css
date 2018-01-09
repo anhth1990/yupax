@@ -106,3 +106,14 @@ table.report-table td.border-right-none {
 #morris_chart_3, #morris_chart_4 {
     height: 255px;
 }
+
+.group-title {
+    background-color: lightgreen;
+    height: 40px;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    line-height: 20px;
+}
