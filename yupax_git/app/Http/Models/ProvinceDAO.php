@@ -1,22 +1,32 @@
 <?php
 
-/*
- * anhth1990
- */
-
 namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Exception;
 
-class ProvinceDAO extends BaseDAO {
-    
-    public function __construct() {
+/**
+ * Class ProvinceDAO
+ * @package App\Http\Models
+ */
+class ProvinceDAO extends BaseDAO
+{
+    /**
+     * ProvinceDAO constructor.
+     */
+    public function __construct()
+    {
         parent::__construct("tb_province");
     }
-    
-    public function getProvince(){
+
+    /**
+     * Get province list
+     * @return mixed
+     * @throws Exception
+     */
+    public function getProvince()
+    {
         try {
             $data = ProvinceDAO::select('*');
             $data = $data->get();
@@ -25,15 +35,18 @@ class ProvinceDAO extends BaseDAO {
             throw new Exception(trans('error.error_system'));
         }
     }
-    
-    public function getProvinceById($id) {
+
+    /**
+     * Get province by id
+     * @param $id
+     * @return string
+     */
+    public function getProvinceById($id)
+    {
         try {
             return ProvinceDAO::select("*")->where("provinceid", "=", $id)->first();
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
-
 }
-
-?>
