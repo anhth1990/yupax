@@ -109,6 +109,7 @@ Route::group(array('prefix' => 'merchant', 'before' => 'check-login-admin-mercha
 
     // Report
     Route::get('/report', '\App\Http\AdminMerchant\Controllers\ReportController@report')->name('report.index');
+    Route::get('/report-group', '\App\Http\AdminMerchant\Controllers\ReportController@reportGroup')->name('report.reportGroup');
 
     // --- revenue
     Route::get('/statistical/revenue', '\App\Http\AdminMerchant\Controllers\StatisticalController@statisticalRevenue');

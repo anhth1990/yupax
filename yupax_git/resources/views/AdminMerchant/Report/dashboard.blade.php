@@ -21,7 +21,7 @@
         <!-- BEGIN PAGE BREADCRUMB -->
         <ul class="page-breadcrumb breadcrumb">
             <li>
-                <a href="index.html">Home</a>
+                <a href="{{Asset('/merchant')}}">Tổng quan</a>
                 <i class="fa fa-circle"></i>
             </li>
             <li>
@@ -37,12 +37,11 @@
                         <label class="control-label col-md-1 uppercase">BÁO CÁO</label>
                         <div class="col-md-2">
                             <select class="form-control" name="company">
-                                <option value="redsun" {{ strtolower(app('request')->input('company')) === "redsun" ? "selected" : "" }}>
-                                    Redsun
-                                </option>
-                                <option value="canifa" {{ strtolower(app('request')->input('company')) === "canifa" ? "selected" : "" }}>
-                                    CANIFA
-                                </option>
+                                @foreach($data['merchants'] as $key => $value)
+                                    <option value="{{ $key }}" {{ strtolower(app('request')->input('company')) === strtolower($key) ? "selected" : "" }}>
+                                        {{ strtoupper($value) }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -50,7 +49,7 @@
                         <div class="col-md-2">
                             <select class="form-control" name="area">
                                 @foreach($data['areas'] as $key => $value)
-                                    <option value="{{ $value }}" {{ strtolower(app('request')->input('area')) === strtolower($value) ? "selected" : "" }}>
+                                    <option value="{{ $key }}" {{ strtolower(app('request')->input('area')) === strtolower($key) ? "selected" : "" }}>
                                         {{ $value }}
                                     </option>
                                 @endforeach
@@ -91,7 +90,7 @@
         <div class="row same-height-parent">
             <div class="col-md-2 padding-right-0">
                 <div class="highlight-yellow-box">
-                    <div style="background: #FFF; padding: 15px 0">TỔNG DOANH THU</div>
+                    <div class="title">TỔNG DOANH THU</div>
                     <div class="highlight-number">
                         {{ $data['revenue_total'] }}
                         <hr>
@@ -100,11 +99,11 @@
                 </div>
 
                 <div class="highlight-blue-box">
-                    <div style="background: #FFF; padding: 15px 0">TỔNG SỐ GIAO DỊCH</div>
+                    <div class="title">TỔNG SỐ GIAO DỊCH</div>
                     <div class="highlight-number">
                         {{ $data['transactions_total'] }}
                         <hr>
-                        <div>nghìn giao dịch</div>
+                        <div>giao dịch</div>
                     </div>
                 </div>
             </div>
@@ -135,7 +134,7 @@
             <div class="col-md-12">
                 <div class="statistic-number">
                     <table class="report-table">
-                        <tr>
+                        <tr class="header">
                             <td width="25%">HOÁ ĐƠN TRUNG BÌNH</td>
                             <td width="25%">HOÁ ĐƠN CAO NHẤT/NGÀY</td>
                             <td width="25%">MAX SỐ GIAO DỊCH/NGÀY</td>
@@ -216,7 +215,7 @@
                     </div>
 
                     <div class="portlet-body">
-                        <div id="products_ration_by_weekend" class="chart" data-content="{{ $data['products_ration_by_week'] }}"></div>
+                        <div id="products_ration_by_weekend" class="chart" data-content="{{ $data['products_ration_by_weekend'] }}"></div>
                     </div>
                 </div>
             </div>
