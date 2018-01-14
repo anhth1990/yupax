@@ -122,7 +122,7 @@ jQuery(document).ready(function () {
             }]
         },
         tooltip: {
-            valueSuffix: '°C'
+            valueSuffix: ' VND'
         },
         legend: {
             layout: 'horizontal',
@@ -172,7 +172,7 @@ jQuery(document).ready(function () {
             }]
         },
         tooltip: {
-            valueSuffix: '°C'
+            valueSuffix: ' GD'
         },
         legend: {
             layout: 'horizontal',

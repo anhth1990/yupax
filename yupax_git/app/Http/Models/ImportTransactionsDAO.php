@@ -34,10 +34,12 @@ class ImportTransactionsDAO extends BaseDAO
     {
         try {
             $data = DB::table('tb_import_transactions AS t')
-                ->select(DB::raw('SUM(t.total_transaction) as revenue_total'), DB::raw('COUNT(*) as transactions_total'))
-                ->join('tb_store2 AS s', 's.id', '=', 't.store_id')
-                ->where('s.name', 'like', '%' . $company . '%')
-                ->where('t.location_id', 'like', '%' . $area . '%')
+                ->select(
+                    DB::raw('SUM(t.total_transaction) as revenue_total'),
+                    DB::raw('COUNT(DISTINCT id) as transactions_total')
+                )
+                ->where('t.organization_id', '=', $company)
+                ->where('t.location_id', '=', $area)
                 ->whereYear('t.created_date', '=', $year)
                 ->first();
 
@@ -65,8 +67,7 @@ class ImportTransactionsDAO extends BaseDAO
                 FROM (
                     SELECT sum(t.total_transaction) as total_transaction, count(*) as number_transaction
                     FROM tb_import_transactions  AS t
-                    INNER JOIN `tb_store2` AS `s` ON `s`.`id` = `t`.`store_id`
-                    WHERE s.name like '%{$company}%' AND t.location_id like '%{$area}%' AND year(t.created_date) = {$year}
+                    WHERE t.organization_id = {$company} AND t.location_id like '%{$area}%' AND year(t.created_date) = {$year}
                     GROUP BY t.created_date
                 ) as temp"
             );
@@ -92,11 +93,9 @@ class ImportTransactionsDAO extends BaseDAO
             $data = DB::select("
                 SELECT t.created_date, sum(t.total_transaction) as total_transaction, count(*) as number_transaction
                 FROM tb_import_transactions AS t
-                INNER JOIN `tb_store2` AS `s` ON `s`.`id` = `t`.`store_id`
-                WHERE s.name like '%{$company}%' AND t.location_id like '%{$area}%' AND year(t.created_date) = {$year}
+                WHERE t.organization_id = {$company} AND t.location_id like '%{$area}%' AND year(t.created_date) = {$year}
                 GROUP BY created_date"
             );
-
             return $data;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -115,11 +114,11 @@ class ImportTransactionsDAO extends BaseDAO
     public function getTransactions($company, $area, $year)
     {
         try {
-            $data = DB::select("
-                SELECT t.category_id, t.created_date, t.total_transaction
+            $data = DB::select(
+                "SELECT t.category_id, t.created_date, t.total_transaction, c.name
                 FROM tb_import_transactions AS t
-                INNER JOIN `tb_store2` AS `s` ON `s`.`id` = `t`.`store_id`
-                WHERE s.name like '%{$company}%' AND t.location_id like '%{$area}%' AND year(t.created_date) = {$year}"
+                INNER JOIN tb_category as c ON c.id = t.category_id
+                WHERE t.organization_id = {$company} AND t.location_id like '%{$area}%' AND year(t.created_date) = {$year}"
             );
 
             return $data;

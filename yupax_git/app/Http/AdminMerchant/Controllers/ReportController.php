@@ -40,7 +40,7 @@ class ReportController extends BaseController
         try {
             $requestData = $request->all();
             $data = $this->reportService->initReportData();
-            $reportData = $this->reportService->loadReportData($requestData);
+            $reportData = $this->reportService->loadReportData($requestData, $data['merchants']);
 
             $data['revenue_total'] = $reportData['revenue_total'];
             $data['transactions_total'] = $reportData['transactions_total'];

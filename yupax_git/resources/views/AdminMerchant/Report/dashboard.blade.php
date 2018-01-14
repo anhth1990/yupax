@@ -21,7 +21,7 @@
         <!-- BEGIN PAGE BREADCRUMB -->
         <ul class="page-breadcrumb breadcrumb">
             <li>
-                <a href="index.html">Home</a>
+                <a href="{{Asset('/merchant')}}">Tổng quan</a>
                 <i class="fa fa-circle"></i>
             </li>
             <li>
@@ -37,12 +37,11 @@
                         <label class="control-label col-md-1 uppercase">BÁO CÁO</label>
                         <div class="col-md-2">
                             <select class="form-control" name="company">
-                                <option value="redsun" {{ strtolower(app('request')->input('company')) === "redsun" ? "selected" : "" }}>
-                                    Redsun
-                                </option>
-                                <option value="canifa" {{ strtolower(app('request')->input('company')) === "canifa" ? "selected" : "" }}>
-                                    CANIFA
-                                </option>
+                                @foreach($data['merchants'] as $key => $value)
+                                    <option value="{{ $key }}" {{ strtolower(app('request')->input('company')) === strtolower($key) ? "selected" : "" }}>
+                                        {{ strtoupper($value) }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -95,7 +94,7 @@
                     <div class="highlight-number">
                         {{ $data['revenue_total'] }}
                         <hr>
-                        <div>VND</div>
+                        <div>triệu VND</div>
                     </div>
                 </div>
 

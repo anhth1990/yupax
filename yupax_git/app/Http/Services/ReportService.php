@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Helpers\Utility;
 use App\Http\Models\ImportTransactionsDAO;
+use App\Http\Models\MerchantDAO;
 use App\Http\Models\ProvinceDAO;
 use App\Http\Models\StoreDAO;
 
@@ -35,6 +36,13 @@ class ReportService extends BaseService
     protected $storeDao;
 
     /**
+     * $merchantDao
+     *
+     * @var MerchantDAO
+     */
+    protected $merchantDao;
+
+    /**
      * ReportService constructor.
      */
     public function __construct()
@@ -42,6 +50,7 @@ class ReportService extends BaseService
         $this->provinceDao = new ProvinceDAO();
         $this->storeDao = new StoreDAO();
         $this->importTransactionsDAO = new ImportTransactionsDAO();
+        $this->merchantDao = new MerchantDAO();
     }
 
     /**
@@ -52,19 +61,20 @@ class ReportService extends BaseService
     public function initReportData()
     {
         $provinces = $this->provinceDao->getProvince()->toArray();
-        $stores = $this->storeDao->getAllStores()->toArray();
-        $areas = [];
+        $merchantList = $this->merchantDao->getAllMerchants()->toArray();
+        $merchants = $areas = [];
 
         foreach ($provinces as $province) {
             $areas[$province['provinceid']] = $province['name'];
         }
 
-        foreach ($stores as $store) {
-            $areas[$store['id']] = $store['name'];
+        foreach ($merchantList as $item) {
+            $merchants[$item['id']] = $item['name'];
         }
 
         return [
-            'areas' => $areas
+            'areas' => $areas,
+            'merchants' => $merchants
         ];
     }
 
@@ -72,18 +82,19 @@ class ReportService extends BaseService
      * Load report data
      *
      * @param array $requestData
+     * @param array $merchants
      * @return array
      */
-    public function loadReportData($requestData = [])
+    public function loadReportData($requestData = [], $merchants = [])
     {
         $result = [];
-        $company = isset($requestData['company']) ? $requestData['company'] : 'redsun';
+        $company = isset($requestData['company']) ? $requestData['company'] : 99;
         $area = isset($requestData['area']) ? $requestData['area'] : 'hà nội';
         $year = isset($requestData['year']) ? $requestData['year'] : 2017;
         $reportTime = isset($requestData['report-time']) ? $requestData['report-time'] : 'quy';
         $reportTotal = $this->importTransactionsDAO->getReportTotal($company, $area, $year, $reportTime);
 
-        $result['revenue_total'] = number_format($reportTotal->revenue_total);
+        $result['revenue_total'] = number_format($reportTotal->revenue_total / 1000000);
         $result['transactions_total'] = number_format($reportTotal->transactions_total);
         $highlightedNumber = $this->importTransactionsDAO->getMaxTransactionData($company, $area, $year, $reportTime);
         $result['average_invoice'] = ($reportTotal->transactions_total) ?
@@ -92,10 +103,25 @@ class ReportService extends BaseService
         $result['maximum_transaction_per_day'] = number_format($highlightedNumber->max_number_transaction);
         $result['refund'] = 0.1;
         $highChartData = $this->importTransactionsDAO->getTransactionByDates($company, $area, $year);
-        $result['high_chart'] = $this->prepareHighChartResponse($company, $year, $reportTime, $highChartData);
+        $result['high_chart'] = $this->prepareHighChartResponse(
+            $merchants[$company],
+            $year,
+            $reportTime,
+            $highChartData
+        );
         $barChartData = $this->importTransactionsDAO->getTransactions($company, $area, $year);
-        $result['bar_chart']['transaction_by_hours'] = $this->prepareNumberTransactionByHours($company, $year, $reportTime, $barChartData);
-        $result['bar_chart']['average_invoice_by_hours'] = $this->prepareTotalTransactionByHours($company, $year, $reportTime, $barChartData);
+        $result['bar_chart']['transaction_by_hours'] = $this->prepareNumberTransactionByHours(
+            $company,
+            $year,
+            $reportTime,
+            $barChartData
+        );
+        $result['bar_chart']['average_invoice_by_hours'] = $this->prepareTotalTransactionByHours(
+            $company,
+            $year,
+            $reportTime,
+            $barChartData
+        );
         $result['pie_chart'] = $this->preparePieChartResponse($barChartData);
 
         return $result;
@@ -411,15 +437,15 @@ class ReportService extends BaseService
 
         foreach ($data as $item) {
             if (!Utility::isWeekend($item->created_date)) {
-                if (!isset($result['day_in_week'][$item->category_id])) {
-                    $result['day_in_week'][$item->category_id] = 0;
+                if (!isset($result['day_in_week'][$item->name])) {
+                    $result['day_in_week'][$item->name] = 0;
                 }
-                $result['day_in_week'][$item->category_id] += $item->total_transaction;
+                $result['day_in_week'][$item->name] += $item->total_transaction;
             } else {
-                if (!isset($result['weekend'][$item->category_id])) {
-                    $result['weekend'][$item->category_id] = 0;
+                if (!isset($result['weekend'][$item->name])) {
+                    $result['weekend'][$item->name] = 0;
                 }
-                $result['weekend'][$item->category_id] += $item->total_transaction;
+                $result['weekend'][$item->name] += $item->total_transaction;
             }
         }
 
