@@ -65,9 +65,9 @@ class ImportTransactionsDAO extends BaseDAO
             $data = DB::selectOne("
                 SELECT MAX(temp.total_transaction) as max_total_transaction, max(temp.number_transaction) as max_number_transaction
                 FROM (
-                    SELECT sum(t.total_transaction) as total_transaction, count(*) as number_transaction
+                    SELECT MAX(t.total_transaction) as total_transaction, count(*) as number_transaction
                     FROM tb_import_transactions  AS t
-                    WHERE t.organization_id = {$company} AND t.location_id like '%{$area}%' AND year(t.created_date) = {$year}
+                    WHERE t.organization_id = {$company} AND t.location_id = '{$area}' AND year(t.created_date) = {$year}
                     GROUP BY t.created_date
                 ) as temp"
             );
@@ -93,7 +93,7 @@ class ImportTransactionsDAO extends BaseDAO
             $data = DB::select("
                 SELECT t.created_date, sum(t.total_transaction) as total_transaction, count(*) as number_transaction
                 FROM tb_import_transactions AS t
-                WHERE t.organization_id = {$company} AND t.location_id like '%{$area}%' AND year(t.created_date) = {$year}
+                WHERE t.organization_id = {$company} AND t.location_id = '{$area}' AND year(t.created_date) = {$year}
                 GROUP BY created_date"
             );
             return $data;
