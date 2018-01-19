@@ -53,7 +53,8 @@
     margin-bottom: 15px;
 }
 
-.highlight-blue-box .title, .highlight-yellow-box .title {
+.highlight-blue-box .title, .highlight-yellow-box .title, .highlight-light-green-box .title, .highlight-light-blue-box .title,
+.highlight-light-yellow-box .title, .highlight-light-red-box .title {
     background: #FFF;
     padding: 15px 0;
     font-weight: bold;
@@ -64,13 +65,14 @@
     padding: 10px;
 }
 
-.highlight-number div {
+.highlight-number div, .group-highlight-number div {
     font-size: 16px;
 }
 
-table.report-table {
+table.report-table, table.group-report-table {
     height: 100%;
     width: 100%;
+    font-size: 16px;
 }
 
 table.report-table td.border-right {
@@ -116,4 +118,67 @@ table.report-table td.border-right-none {
     text-align: center;
     margin-bottom: 15px;
     line-height: 20px;
+}
+
+/* Group report */
+.same-height-parent .group-statistic-number {
+    height: 100px;
+    background: white;
+}
+
+table.group-report-table td.border-right {
+    border-right: 2px solid grey;
+}
+
+table.group-report-table td.border-right-none {
+    border-right: none;
+}
+
+table.group-report-table b {
+    font-size: 18px;
+}
+
+.group-highlight-number {
+    font-size: 25px;
+    padding: 20px 10px;
+}
+
+.light-green {
+    background-color: #BAEC8B;
+}
+
+.highlight-light-green-box {
+    height: 45%;
+    background: #BAEC8B;
+    margin-bottom: 15px;
+}
+
+.light-blue {
+    background-color: #8BD1EB;
+}
+
+.highlight-light-blue-box {
+    height: 45%;
+    background: #8BD1EB;
+    margin-bottom: 15px;
+}
+
+.light-yellow {
+    background-color: #F4E182;
+}
+
+.highlight-light-yellow-box {
+    height: 45%;
+    background: #F4E182;
+    margin-bottom: 15px;
+}
+
+.light-red {
+    background-color: #EBA58B;
+}
+
+.highlight-light-red-box {
+    height: 45%;
+    background: #EBA58B;
+    margin-bottom: 15px;
 }

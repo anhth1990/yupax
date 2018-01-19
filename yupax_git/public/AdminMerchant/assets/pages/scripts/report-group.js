@@ -1,8 +1,6 @@
 jQuery(document).ready(function () {
     var year = getParameterByName('year');
     var reportTime = getParameterByName('report-time');
-
-    console.log(year);
     if (year === null) {
         year = 2017;
     }
@@ -15,32 +13,60 @@ jQuery(document).ready(function () {
         reportTime = 'THÁNG';
     }
 
-    var transactionByHours = JSON.parse($('#transaction_by_hours').attr('data-content'));
-    // BAR CHART
+    var comingOutGroup = JSON.parse($('#coming_out_group').attr('data-content'));
+
     new Morris.Bar({
-        element: 'transaction_by_hours',
+        element: 'coming_out_group',
         barColors: ['#0b62a4', '#cb4b4b'],
-        data: transactionByHours['data'],
+        data: comingOutGroup['data'],
         xkey: 'y',
         ykeys: ['day_in_week', 'weekend'],
         resize: true,
         gridTextSize: 14,
         xLabelAngle: 0,
-        labels: transactionByHours['labels']
+        labels: comingOutGroup['labels']
     });
 
-    var averageInvoiceByHours = JSON.parse($('#average_invoice_by_hours').attr('data-content'));
+    var loyalGroup = JSON.parse($('#loyal_group').attr('data-content'));
 
     new Morris.Bar({
-        element: 'average_invoice_by_hours',
+        element: 'loyal_group',
         barColors: ['#0b62a4', '#cb4b4b'],
-        data: averageInvoiceByHours['data'],
+        data: loyalGroup['data'],
         xkey: 'y',
         ykeys: ['day_in_week', 'weekend'],
         resize: true,
         gridTextSize: 14,
         xLabelAngle: 0,
-        labels: averageInvoiceByHours['labels']
+        labels: loyalGroup['labels']
+    });
+
+    var newGroup = JSON.parse($('#new_group').attr('data-content'));
+
+    new Morris.Bar({
+        element: 'new_group',
+        barColors: ['#0b62a4', '#cb4b4b'],
+        data: newGroup['data'],
+        xkey: 'y',
+        ykeys: ['day_in_week', 'weekend'],
+        resize: true,
+        gridTextSize: 14,
+        xLabelAngle: 0,
+        labels: newGroup['labels']
+    });
+
+    var vipGroup = JSON.parse($('#vip_group').attr('data-content'));
+    // BAR CHART
+    new Morris.Bar({
+        element: 'vip_group',
+        barColors: ['#0b62a4', '#cb4b4b'],
+        data: vipGroup['data'],
+        xkey: 'y',
+        ykeys: ['day_in_week', 'weekend'],
+        resize: true,
+        gridTextSize: 14,
+        xLabelAngle: 0,
+        labels: vipGroup['labels']
     });
 
     $(document).on('change', 'select[name=company], select[name=area], select[name=year], select[name=report-time]', function () {
