@@ -68,7 +68,6 @@ jQuery(document).ready(function () {
     var year = getParameterByName('year');
     var reportTime = getParameterByName('report-time');
 
-    console.log(year);
     if (year === null) {
         year = 2017;
     }
